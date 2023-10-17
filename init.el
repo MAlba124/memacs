@@ -87,22 +87,36 @@
     (unless (package-installed-p 'lsp-mode)
       (package-install 'lsp-mode))
 
+    (unless (package-installed-p 'lsp-ui)
+      (package-install 'lsp-ui))
+
     (use-package lsp-mode
     :init
-    (setq lsp-keymap-prefix "C-c l")
+    (setq lsp-keymap-prefix "C-c C-l")
     :hook (
-            (rust-mode . lsp)
-            )
+            (rust-mode . lsp))
     :commands lsp)
-    (use-package lsp-ui :commands lsp-ui-mode))
+
+    (use-package lsp-ui
+      :commands
+      lsp-ui-mode))
 
 ;; Install company mode
 (unless (package-installed-p 'company)
   (package-install 'company))
 
 ;; Install rustic for Rust programming
-(unless (package-installed-p 'rustic)
-  (package-install 'rustic))
+(when memacs-enable-rust
+    (unless (package-installed-p 'rustic)
+      (package-install 'rustic))
+
+    (use-package rustic
+      :bind (:map rustic-mode-map
+                  ("C-c C-c t" . rustic-cargo-test)
+                  ("C-c C-c b" . rustic-cargo-bench)
+                  ("C-c C-c c" . rustic-cargo-check))
+      :config
+      (setq rustic-format-on-save t)))
 
 (unless (package-installed-p 'all-the-icons)
   (package-install 'all-the-icons))
@@ -132,11 +146,10 @@
 (add-to-list 'default-frame-alist
              `(font . ,memacs-font))
 
-(use-package rustic)
-
 (require 'hl-line)
 (global-hl-line-mode 1)
 
 ;; Blinking cursor
 (blink-cursor-mode memacs-blink-cursor)
 
+(setq ring-bell-function 'ignore)

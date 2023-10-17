@@ -23,3 +23,4 @@
 (setq memacs-use-ivy            t)
 (setq memacs-use-magit          t)
 (setq memacs-use-lsp            t)
+(setq memacs-enable-rust       t)
