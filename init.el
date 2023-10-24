@@ -48,6 +48,7 @@
     (setq evil-want-keybinding nil)
     (setq evil-want-C-u-scroll t)
     (setq evil-want-C-d-scroll t)
+    (evil-set-undo-system 'undo-redo)
     :config
     (evil-mode 1))
 
@@ -99,11 +100,16 @@
 
     (use-package lsp-ui
       :commands
-      lsp-ui-mode))
+      lsp-ui-mode)
+    (setq lsp-ui-flycheck-enable t)
+    (setq lsp-ui-sideline-enable t)
+    (setq lsp-ui-sideline-enable t))
 
 ;; Install company mode
 (unless (package-installed-p 'company)
   (package-install 'company))
+
+(company-tng-configure-default)
 
 ;; Install rustic for Rust programming
 (when memacs-enable-rust
@@ -116,7 +122,9 @@
                   ("C-c C-c b" . rustic-cargo-bench)
                   ("C-c C-c c" . rustic-cargo-check))
       :config
-      (setq rustic-format-on-save t)))
+      (setq rustic-format-on-save nil) ;; Set to t if you wish to run rustfmt on save
+    (when memacs-use-lsp
+        (setq rustic-lsp-client 'lsp-mode))))
 
 (unless (package-installed-p 'all-the-icons)
   (package-install 'all-the-icons))
@@ -153,3 +161,15 @@
 (blink-cursor-mode memacs-blink-cursor)
 
 (setq ring-bell-function 'ignore)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages '(undo-redo undo-fu undo-tree use-package evil-collection)))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
