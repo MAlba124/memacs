@@ -19,7 +19,8 @@
 ;;      C-x C-f         Find file
 ;;      C-x g           Open magit
 
-(load "~/.emacs.d/custom.el")
+(setq custom-file "~/.emacs.d/custom.el")
+(load custom-file)
 
 (load "~/.emacs.d/configuration.el")
 
@@ -164,15 +165,3 @@
 (blink-cursor-mode memacs-blink-cursor)
 
 (setq ring-bell-function 'ignore)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(nix-mode use-package evil-collection)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
