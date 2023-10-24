@@ -19,6 +19,8 @@
 ;;      C-x C-f         Find file
 ;;      C-x g           Open magit
 
+(load "~/.emacs.d/custom.el")
+
 (load "~/.emacs.d/configuration.el")
 
 (require 'package)
@@ -56,19 +58,7 @@
     :after evil
     :ensure t
     :config
-    (evil-collection-init))
-    (custom-set-variables
-    ;; custom-set-variables was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    '(package-selected-packages '(use-package evil-collection)))
-    (custom-set-faces
-    ;; custom-set-faces was added by Custom.
-    ;; If you edit it by hand, you could mess it up, so be careful.
-    ;; Your init file should contain only one such instance.
-    ;; If there is more than one, they won't work right.
-    ))
+    (evil-collection-init)))
 
 ;; Install ivy
 (when memacs-use-ivy
@@ -161,15 +151,3 @@
 (blink-cursor-mode memacs-blink-cursor)
 
 (setq ring-bell-function 'ignore)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages '(undo-redo undo-fu undo-tree use-package evil-collection)))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
