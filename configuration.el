@@ -25,3 +25,4 @@
 (setq memacs-use-lsp            t)
 (setq memacs-enable-rust        t)
 (setq memacs-enable-html        t)
+(setq memacs-enable-nix         t)
