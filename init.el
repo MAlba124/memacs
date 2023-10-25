@@ -51,7 +51,7 @@
     (setq evil-want-keybinding nil)
     (setq evil-want-C-u-scroll t)
     (setq evil-want-C-d-scroll t)
-    (evil-set-undo-system 'undo-redo)
+    (setq evil-undo-system 'undo-redo)
     :config
     (evil-mode 1))
 
