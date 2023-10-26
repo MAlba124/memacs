@@ -22,12 +22,12 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
+(load "~/.emacs.d/configuration.el")
+
 (when memacs-native-compilation
     (setq package-native-compile t)
     (native-compile-async "~/.emacs.d" 'recursively)
     (setq comp-async-report-warnings-errors nil))
-
-(load "~/.emacs.d/configuration.el")
 
 (require 'package)
 (add-to-list 'package-archives
