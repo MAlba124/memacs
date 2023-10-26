@@ -14,6 +14,7 @@
 ;; along with memacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;; Some basic settings you can change
+(setq memacs-native-compilation t) ;; Enable native compilation. This required gccemacs
 (setq memacs-font               "Iosevka Semibold-10") ;; Font to use
 (setq memacs-scroll-margin      5)            ;; Scroll margin
 (setq memacs-tab-width          4)                ;; Tab width
