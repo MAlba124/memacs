@@ -81,6 +81,9 @@
 
 ;; Install lsp mode
 (when memacs-use-lsp
+    (unless (package-installed-p 'flycheck)
+      (package-install 'flycheck))
+
     (unless (package-installed-p 'lsp-mode)
       (package-install 'lsp-mode))
 
@@ -148,7 +151,6 @@
 
 (setq scroll-margin memacs-scroll-margin)
 
-;; Set `nil` to `t` if you want line numbers
 (setq display-line-numbers-type memacs-show-linenumbers)
 
 (setq-default tab-width memacs-tab-width)
@@ -170,3 +172,7 @@
 (blink-cursor-mode memacs-blink-cursor)
 
 (setq ring-bell-function 'ignore)
+
+(global-auto-revert-mode t)
+
+(setq column-number-mode t)
