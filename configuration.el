@@ -27,3 +27,6 @@
 (setq memacs-enable-rust        t)
 (setq memacs-enable-html        t)
 (setq memacs-enable-nix         t)
+(setq memacs-enable-sql         nil)
+(setq memacs-enable-pomidor     nil)
+(setq memacs-enable-glsl        nil)

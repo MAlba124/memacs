@@ -106,7 +106,8 @@
 
 ;; Install company mode
 (unless (package-installed-p 'company)
-  (package-install 'company))
+  (package-install 'company)
+  (setq company-idle-delay 0.1))
 
 (company-tng-configure-default)
 
@@ -138,8 +139,37 @@
     (use-package nix-mode
     :mode "\\.nix\\'"))
 
+
+(when memacs-enable-pomidor
+  (unless (package-installed-p 'pomidor)
+    (package-install 'pomidor)
+
+    (use-package pomidor
+    :bind (("<f12>" . pomidor))
+    :config (setq pomidor-sound-tick nil
+                    pomidor-sound-tack nil)
+    :hook (pomidor-mode . (lambda ()
+                            (display-line-numbers-mode -1) ; Emacs 26.1+
+                            (setq left-fringe-width 0 right-fringe-width 0)
+                            (setq left-margin-width 2 right-margin-width 0)
+                            ;; force fringe update
+                            (set-window-buffer nil (current-buffer)))))))
+
 (unless (package-installed-p 'all-the-icons)
   (package-install 'all-the-icons))
+
+(when memacs-enable-glsl
+  (unless (package-installed-p 'glsl-mode)
+    (package-install 'glsl-mode))
+
+  (use-package glsl-mode
+    :mode ("\\.frag\\'" "\\.vert\\'" "\\.glsl\\'"))
+
+  (unless (package-installed-p 'company-glsl)
+    (package-install 'company-glsl))
+
+  (use-package company-glsl
+    :mode ("\\.frag\\'" "\\.vert\\'" "\\.glsl\\'")))
 
 (use-package all-the-icons
   :if (display-graphic-p))
