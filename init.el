@@ -19,8 +19,15 @@
 ;;      C-x C-f         Find file
 ;;      C-x g           Open magit
 
+;; -----------------------------------------------------------------------------
+;; ------------------------------ Imports/setup --------------------------------
+;; -----------------------------------------------------------------------------
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
+
+(unless (package-installed-p 'gcmh)
+    (package-install 'gcmh))
+(gcmh-mode 1)
 
 (load "~/.emacs.d/configuration.el")
 
@@ -39,6 +46,12 @@
   (package-install 'use-package))
 (require 'use-package)
 
+(global-auto-revert-mode t)
+;; --------------------------------- END SECTION -------------------------------
+
+;; -----------------------------------------------------------------------------
+;; -------------------------------- Navigation ---------------------------------
+;; -----------------------------------------------------------------------------
 ;; Install evil mode
 (when memacs-use-evil
     (unless (package-installed-p 'evil)
@@ -66,6 +79,11 @@
     :config
     (evil-collection-init)))
 
+;; --------------------------------- END SECTION -------------------------------
+
+;; -----------------------------------------------------------------------------
+;; ---------------------------------- General ----------------------------------
+;; -----------------------------------------------------------------------------
 ;; Install ivy
 (when memacs-use-ivy
     (unless (package-installed-p 'ivy)
@@ -79,6 +97,31 @@
     (unless (package-installed-p 'magit)
         (package-install 'magit)))
 
+(when memacs-enable-pomidor
+  (unless (package-installed-p 'pomidor)
+    (package-install 'pomidor)
+
+    (use-package pomidor
+    :bind (("<f12>" . pomidor))
+    :config (setq pomidor-sound-tick nil
+                    pomidor-sound-tack nil)
+    :hook (pomidor-mode . (lambda ()
+                            (display-line-numbers-mode -1) ; Emacs 26.1+
+                            (setq left-fringe-width 0 right-fringe-width 0)
+                            (setq left-margin-width 2 right-margin-width 0)
+                            ;; force fringe update
+                            (set-window-buffer nil (current-buffer)))))))
+
+(unless (package-installed-p 'yasnippet)
+  (package-install 'yasnippet))
+(setq yas-snippet-dirs
+      '("~/.emacs.d/snippets"))
+(yas-global-mode 1)
+;; --------------------------------- END SECTION -------------------------------
+
+;; -----------------------------------------------------------------------------
+;; ------------------------------------ LSP ------------------------------------
+;; -----------------------------------------------------------------------------
 ;; Install lsp mode
 (when memacs-use-lsp
     (unless (package-installed-p 'flycheck)
@@ -110,8 +153,12 @@
   (setq company-idle-delay 0.1))
 
 (company-tng-configure-default)
+;; --------------------------------- END SECTION -------------------------------
 
-;; Install rustic for Rust programming
+;; -----------------------------------------------------------------------------
+;; --------------------------------- Languages ---------------------------------
+;; -----------------------------------------------------------------------------
+;; --------------------------------- Rust
 (when memacs-enable-rust
     (unless (package-installed-p 'rustic)
       (package-install 'rustic))
@@ -120,18 +167,21 @@
       :bind (:map rustic-mode-map
                   ("C-c C-c t" . rustic-cargo-test)
                   ("C-c C-c b" . rustic-cargo-bench)
+                  ("C-c C-c f" . lsp-find-definition)
                   ("C-c C-c c" . rustic-cargo-check))
       :config
       (setq rustic-format-on-save nil) ;; Set to t if you wish to run rustfmt on save
     (when memacs-use-lsp
         (setq rustic-lsp-client 'lsp-mode))))
 
+;; --------------------------------- HTML
 (when memacs-enable-html
     (unless (package-installed-p 'web-mode)
       (package-install 'web-mode))
 
     (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)))
 
+;; --------------------------------- Nix
 (when memacs-enable-nix
     (unless (package-installed-p 'nix-mode)
       (package-install 'nix-mode))
@@ -139,25 +189,7 @@
     (use-package nix-mode
     :mode "\\.nix\\'"))
 
-
-(when memacs-enable-pomidor
-  (unless (package-installed-p 'pomidor)
-    (package-install 'pomidor)
-
-    (use-package pomidor
-    :bind (("<f12>" . pomidor))
-    :config (setq pomidor-sound-tick nil
-                    pomidor-sound-tack nil)
-    :hook (pomidor-mode . (lambda ()
-                            (display-line-numbers-mode -1) ; Emacs 26.1+
-                            (setq left-fringe-width 0 right-fringe-width 0)
-                            (setq left-margin-width 2 right-margin-width 0)
-                            ;; force fringe update
-                            (set-window-buffer nil (current-buffer)))))))
-
-(unless (package-installed-p 'all-the-icons)
-  (package-install 'all-the-icons))
-
+;; --------------------------------- GLSL
 (when memacs-enable-glsl
   (unless (package-installed-p 'glsl-mode)
     (package-install 'glsl-mode))
@@ -170,7 +202,45 @@
 
   (use-package company-glsl
     :mode ("\\.frag\\'" "\\.vert\\'" "\\.glsl\\'")))
+;; --------------------------------- END SECTION -------------------------------
 
+;; -----------------------------------------------------------------------------
+;; -------------------------------- Autoinsert ---------------------------------
+;; -----------------------------------------------------------------------------
+(eval-after-load 'autoinsert
+  '(define-auto-insert
+     '("shell.nix" . "nix shell skeleton")
+     '("Short description: "
+       "{ pkgs ? import <nixpkgs> {} }:\n\n"
+       "with pkgs;\n\n"
+        "mkShell rec {\n"
+        "  nativeBuildInputs = [];\n"
+        "  buildInputs = [];\n\n"
+        "  LD_LIBRARY_PATH = lib.makeLibraryPath buildInputs;\n"
+        "}\n")))
+(auto-insert-mode)
+;; --------------------------------- END SECTION -------------------------------
+
+;; -----------------------------------------------------------------------------
+;; ---------------------------------- AUCTeX -----------------------------------
+;; -----------------------------------------------------------------------------
+(unless (package-installed-p 'auctex)
+  (package-install 'auctex))
+
+(setq TeX-PDF-mode t)
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(unless (package-installed-p 'pdf-tools)
+  (package-install 'pdf-tools))
+;; --------------------------------- END SECTION -------------------------------
+
+;; -----------------------------------------------------------------------------
+;; ------------------------------------ UI -------------------------------------
+;; -----------------------------------------------------------------------------
+(unless (package-installed-p 'all-the-icons)
+  (package-install 'all-the-icons))
 (use-package all-the-icons
   :if (display-graphic-p))
 
@@ -203,6 +273,5 @@
 
 (setq ring-bell-function 'ignore)
 
-(global-auto-revert-mode t)
-
 (setq column-number-mode t)
+;; --------------------------------- END SECTION -------------------------------
