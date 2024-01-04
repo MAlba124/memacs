@@ -17,8 +17,9 @@
 (setq memacs-native-compilation t) ;; Enable native compilation. This required gccemacs
 (setq memacs-font               "Iosevka Semibold-10") ;; Font to use
 (setq memacs-scroll-margin      5)            ;; Scroll margin
-(setq memacs-tab-width          4)                ;; Tab width
+(setq memacs-tab-width          4)            ;; Tab width
 (setq memacs-blink-cursor       0)
+(setq memacs-hl-line            t)
 (setq memacs-show-linenumbers   nil)
 (setq memacs-use-evil           t)
 (setq memacs-use-ivy            t)

@@ -15,7 +15,7 @@
                    flycheck gcmh gruvbox-theme ivy lsp-ui magit
                    nix-mode pdf-tools pomidor preview-latex projectile
                    rustic solo-jazz-theme undo-fu undo-tree
-                   use-package web-mode yasnippet)))
+                   use-package vterm web-mode yasnippet)))
     
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

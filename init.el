@@ -14,11 +14,6 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with memacs.  If not, see <https://www.gnu.org/licenses/>.
 
-;; marcu5h's emacs
-;; Key chords:
-;;      C-x C-f         Find file
-;;      C-x g           Open magit
-
 ;; -----------------------------------------------------------------------------
 ;; ------------------------------ Imports/setup --------------------------------
 ;; -----------------------------------------------------------------------------
@@ -117,6 +112,10 @@
 (setq yas-snippet-dirs
       '("~/.emacs.d/snippets"))
 (yas-global-mode 1)
+
+(unless (package-installed-p 'vterm)
+  (package-install 'vterm))
+(setq vterm-shell "zsh")
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
@@ -218,7 +217,7 @@
         "  buildInputs = [];\n\n"
         "  LD_LIBRARY_PATH = lib.makeLibraryPath buildInputs;\n"
         "}\n")))
-(auto-insert-mode)
+;; (auto-insert-mode)
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
@@ -265,8 +264,15 @@
 (add-to-list 'default-frame-alist
              `(font . ,memacs-font))
 
-(require 'hl-line)
-(global-hl-line-mode 1)
+(when memacs-hl-line
+    (require 'hl-line)
+    (global-hl-line-mode t)
+
+    (defun memacs-disable-hl-line-in-vterm ()
+    (when (equal major-mode 'vterm-mode)
+        (setq-local global-hl-line-mode nil)))
+
+    (add-hook 'vterm-mode-hook 'memacs-disable-hl-line-in-vterm))
 
 ;; Blinking cursor
 (blink-cursor-mode memacs-blink-cursor)
@@ -275,3 +281,5 @@
 
 (setq column-number-mode t)
 ;; --------------------------------- END SECTION -------------------------------
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
