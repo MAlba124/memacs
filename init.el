@@ -116,6 +116,13 @@
 (unless (package-installed-p 'vterm)
   (package-install 'vterm))
 (setq vterm-shell "zsh")
+
+(when memacs-enable-elfeed
+  (unless (package-installed-p 'elfeed)
+    (package-install 'elfeed))
+
+  (setq elfeed-feeds
+        '()))
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
@@ -281,5 +288,3 @@
 
 (setq column-number-mode t)
 ;; --------------------------------- END SECTION -------------------------------
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
