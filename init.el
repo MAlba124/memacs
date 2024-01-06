@@ -287,4 +287,6 @@
 (setq ring-bell-function 'ignore)
 
 (setq column-number-mode t)
+
+(setq-default show-trailing-whitespace t)
 ;; --------------------------------- END SECTION -------------------------------
