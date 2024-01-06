@@ -275,11 +275,12 @@
     (require 'hl-line)
     (global-hl-line-mode t)
 
-    (defun memacs-disable-hl-line-in-vterm ()
+    (defun memacs-vterm-hook ()
     (when (equal major-mode 'vterm-mode)
-        (setq-local global-hl-line-mode nil)))
+      (setq-local global-hl-line-mode nil)
+      (setq-local show-trailing-whitespace nil)))
 
-    (add-hook 'vterm-mode-hook 'memacs-disable-hl-line-in-vterm))
+    (add-hook 'vterm-mode-hook 'memacs-vterm-hook))
 
 ;; Blinking cursor
 (blink-cursor-mode memacs-blink-cursor)
