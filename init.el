@@ -247,6 +247,9 @@
 ;; -----------------------------------------------------------------------------
 (unless (package-installed-p 'all-the-icons)
   (package-install 'all-the-icons))
+(unless (package-installed-p 'all-the-icons-dired)
+  (package-install 'all-the-icons-dired))
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 (use-package all-the-icons
   :if (display-graphic-p))
 
@@ -290,4 +293,6 @@
 (setq column-number-mode t)
 
 (setq-default show-trailing-whitespace t)
+
+(load "~/.emacs.d/mode_line.el")
 ;; --------------------------------- END SECTION -------------------------------
