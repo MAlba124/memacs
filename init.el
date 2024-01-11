@@ -123,6 +123,11 @@
 
   (setq elfeed-feeds
         '()))
+
+(unless (package-installed-p 'smartparens)
+  (package-install 'smartparens))
+(require 'smartparens-config)
+(smartparens-global-mode 1)
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
