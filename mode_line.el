@@ -7,13 +7,12 @@
          (when (mode-line-window-selected-p)
            (format "%s%s"
             evil-mode-line-tag
-            "| "
+            "  "
             )))
         memacs-modeline-buffer-name
         (:eval
          (when (mode-line-window-selected-p)
-           (format " | %s %s | %s"
-                   (all-the-icons-faicon "location-arrow")
+           (format "   %s   %s"
                    "%l:%c"
             (capitalize (symbol-name major-mode)))
         ))))

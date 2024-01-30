@@ -213,6 +213,30 @@
 
   (use-package company-glsl
     :mode ("\\.frag\\'" "\\.vert\\'" "\\.glsl\\'")))
+
+(when memacs-enable-lua
+  (unless (package-installed-p 'lua-mode)
+    (package-install 'lua-mode))
+  (use-package lua-mode)
+
+  (unless (package-installed-p 'flymake-lua)
+    (package-install 'flymake-lua)
+  (add-hook 'lua-mode-hook 'flymake-lua-load)))
+
+;; --------------------------------- Common Lisp
+(when memacs-enable-clisp
+  (unless (package-installed-p 'slime)
+    (package-install 'slime))
+
+  ;; (use-package slime-mode
+  ;;   :mode ("\\.lisp\\'"))
+
+  (defun memacs-clisp-hook ()
+    (slime-mode))
+
+  (add-hook 'common-lisp-mode-hook 'memacs-clisp-hook)
+
+  (setq inferior-lisp-program "sbcl"))
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------

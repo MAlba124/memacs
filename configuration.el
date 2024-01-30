@@ -31,4 +31,6 @@
 (setq memacs-enable-sql         nil)
 (setq memacs-enable-pomidor     nil)
 (setq memacs-enable-glsl        nil)
-(setq memacs-enable-elfeed       t)
+(setq memacs-enable-elfeed      t)
+(setq memacs-enable-lua         t)
+(setq memacs-enable-clisp       t)
