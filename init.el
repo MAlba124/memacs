@@ -90,7 +90,7 @@
 ;; Install magit
 (when memacs-use-magit
     (unless (package-installed-p 'magit)
-        (package-install 'magit)))
+      (package-install 'magit)))
 
 (when memacs-enable-pomidor
   (unless (package-installed-p 'pomidor)
@@ -144,12 +144,25 @@
     (unless (package-installed-p 'lsp-ui)
       (package-install 'lsp-ui))
 
+
     (use-package lsp-mode
     :init
     (setq lsp-keymap-prefix "C-c C-l")
     :hook (
-            (rust-mode . lsp))
+            (rust-mode . lsp)
+            (haskell-mode . lsp)
+            (zig-mode . lsp))
     :commands lsp)
+
+    (when memacs-enable-haskell
+        (use-package lsp-haskell
+        :ensure t
+        :config
+        (setq lsp-haskell-server-path "haskell-language-server")
+        (setq lsp-haskell-server-args ())))
+
+    ;; Comment/uncomment this line to see interactions between lsp client/server.
+    (setq lsp-log-io t)
 
     (use-package lsp-ui
       :commands
@@ -228,15 +241,25 @@
   (unless (package-installed-p 'slime)
     (package-install 'slime))
 
-  ;; (use-package slime-mode
-  ;;   :mode ("\\.lisp\\'"))
-
   (defun memacs-clisp-hook ()
     (slime-mode))
 
   (add-hook 'common-lisp-mode-hook 'memacs-clisp-hook)
 
-  (setq inferior-lisp-program "sbcl"))
+  (setq slime-lisp-implementations
+    '((sbcl ("sbcl" "--dynamic-space-size" "4gb"))))
+
+  (setq inferior-lisp-program ""))
+
+;; --------------------------------- Haskell
+(when memacs-enable-haskell
+  (unless (package-installed-p 'haskell-mode)
+    (package-install 'haskell-mode)))
+
+;; --------------------------------- Zig
+(when memacs-enable-zig
+  (unless (package-installed-p 'zig-mode)
+    (package-install 'zig-mode)))
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
