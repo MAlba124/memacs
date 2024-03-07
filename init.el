@@ -128,55 +128,17 @@
   (package-install 'smartparens))
 (require 'smartparens-config)
 (smartparens-global-mode 1)
-;; --------------------------------- END SECTION -------------------------------
 
-;; -----------------------------------------------------------------------------
-;; ------------------------------------ LSP ------------------------------------
-;; -----------------------------------------------------------------------------
-;; Install lsp mode
-(when memacs-use-lsp
-    (unless (package-installed-p 'flycheck)
-      (package-install 'flycheck))
+(setq-default fill-column 80)
 
-    (unless (package-installed-p 'lsp-mode)
-      (package-install 'lsp-mode))
+(use-package company
+  :ensure t
+  :init
+  (setq company-idle-delay 0.1)
+  :hook
+  (company-tng-configure-default))
 
-    (unless (package-installed-p 'lsp-ui)
-      (package-install 'lsp-ui))
-
-
-    (use-package lsp-mode
-    :init
-    (setq lsp-keymap-prefix "C-c C-l")
-    :hook (
-            (rust-mode . lsp)
-            (haskell-mode . lsp)
-            (zig-mode . lsp))
-    :commands lsp)
-
-    (when memacs-enable-haskell
-        (use-package lsp-haskell
-        :ensure t
-        :config
-        (setq lsp-haskell-server-path "haskell-language-server")
-        (setq lsp-haskell-server-args ())))
-
-    ;; Comment/uncomment this line to see interactions between lsp client/server.
-    (setq lsp-log-io t)
-
-    (use-package lsp-ui
-      :commands
-      lsp-ui-mode)
-    (setq lsp-ui-flycheck-enable t)
-    (setq lsp-ui-sideline-enable t)
-    (setq lsp-ui-sideline-enable t))
-
-;; Install company mode
-(unless (package-installed-p 'company)
-  (package-install 'company)
-  (setq company-idle-delay 0.1))
-
-(company-tng-configure-default)
+(add-hook 'after-init-hook 'global-company-mode)
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
@@ -191,12 +153,12 @@
       :bind (:map rustic-mode-map
                   ("C-c C-c t" . rustic-cargo-test)
                   ("C-c C-c b" . rustic-cargo-bench)
-                  ("C-c C-c f" . lsp-find-definition)
                   ("C-c C-c c" . rustic-cargo-check))
       :config
       (setq rustic-format-on-save nil) ;; Set to t if you wish to run rustfmt on save
     (when memacs-use-lsp
-        (setq rustic-lsp-client 'lsp-mode))))
+      (setq rustic-lsp-client 'eglot)
+      (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))))
 
 ;; --------------------------------- HTML
 (when memacs-enable-html
