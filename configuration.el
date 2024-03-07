@@ -35,4 +35,6 @@
 (setq memacs-enable-lua         nil)
 (setq memacs-enable-clisp       nil)
 (setq memacs-enable-haskell     nil)
-(setq memacs-enable-zig         t)
+(setq memacs-enable-zig         nil)
+(setq memacs-enable-yas         nil)
+(setq memacs-enable-vterm       t)

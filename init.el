@@ -27,35 +27,22 @@
 (load "~/.emacs.d/configuration.el")
 
 (when memacs-native-compilation
-    (setq package-native-compile t)
-    (native-compile-async "~/.emacs.d" 'recursively)
-    (setq comp-async-report-warnings-errors nil))
+  (setq package-native-compile t))
 
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-;; (package-refresh-contents)
 
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (require 'use-package)
-
-(global-auto-revert-mode t)
-;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
 ;; -------------------------------- Navigation ---------------------------------
 ;; -----------------------------------------------------------------------------
 ;; Install evil mode
 (when memacs-use-evil
-    (unless (package-installed-p 'evil)
-      (package-install 'evil))
-
-    ;; Install evil-collection for better evil
-    (unless (package-installed-p 'evil-collection)
-        (package-install 'evil-collection))
-
     ;; Init evil
     (use-package evil
     :ensure t
@@ -68,13 +55,12 @@
     :config
     (evil-mode 1))
 
+    ;; Install evil-collection for better evil
     (use-package evil-collection
     :after evil
     :ensure t
     :config
     (evil-collection-init)))
-
-;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
 ;; ---------------------------------- General ----------------------------------
@@ -83,51 +69,58 @@
 (when memacs-use-ivy
     (unless (package-installed-p 'ivy)
         (package-install 'ivy))
-    (ivy-mode)
-    (setq ivy-use-virtual-buffers t)
-    (setq enable-recursive-minibuffers t))
+    (use-package ivy
+      :ensure t
+      :config
+      (setq ivy-use-virtual-buffers t)
+      (setq enable-recursive-minibuffers t)
+      :hook
+      (ivy-mode)))
 
 ;; Install magit
 (when memacs-use-magit
-    (unless (package-installed-p 'magit)
-      (package-install 'magit)))
+  (use-package magit
+    :ensure t))
 
 (when memacs-enable-pomidor
-  (unless (package-installed-p 'pomidor)
-    (package-install 'pomidor)
-
     (use-package pomidor
-    :bind (("<f12>" . pomidor))
-    :config (setq pomidor-sound-tick nil
-                    pomidor-sound-tack nil)
-    :hook (pomidor-mode . (lambda ()
-                            (display-line-numbers-mode -1) ; Emacs 26.1+
-                            (setq left-fringe-width 0 right-fringe-width 0)
-                            (setq left-margin-width 2 right-margin-width 0)
-                            ;; force fringe update
-                            (set-window-buffer nil (current-buffer)))))))
+      :ensure t
+        :bind (("<f12>" . pomidor))
+        :config (setq pomidor-sound-tick nil
+                        pomidor-sound-tack nil)
+        :hook (pomidor-mode . (lambda ()
+                              (display-line-numbers-mode -1) ; Emacs 26.1+
+                              (setq left-fringe-width 0 right-fringe-width 0)
+                               (setq left-margin-width 2 right-margin-width 0)
+                               ;; force fringe update
+                               (set-window-buffer nil (current-buffer))))))
 
-(unless (package-installed-p 'yasnippet)
-  (package-install 'yasnippet))
-(setq yas-snippet-dirs
-      '("~/.emacs.d/snippets"))
-(yas-global-mode 1)
+(when memacs-enable-yas
+    (use-package yasnippet
+      :init
+      (setq yas-snippet-dirs '("~/.emacs.d/snippets"))
+      :config
+      (yas-global-mode 1)))
 
-(unless (package-installed-p 'vterm)
-  (package-install 'vterm))
-(setq vterm-shell "zsh")
+(when memacs-enable-vterm
+    (use-package vterm
+    :ensure t
+    :config
+    (setq vterm-shell "zsh")))
 
 (when memacs-enable-elfeed
-  (unless (package-installed-p 'elfeed)
-    (package-install 'elfeed))
+  (use-package elfeed
+    :ensure t
+    :config
+    (setq elfeed-feeds
+      '())))
 
-  (setq elfeed-feeds
-        '()))
+(use-package smartparens
+  :ensure t
+  :config
+  (smartparens-global-mode 1))
 
-(unless (package-installed-p 'smartparens)
-  (package-install 'smartparens))
-(require 'smartparens-config)
-(smartparens-global-mode 1)
+;; (require 'smartparens-config)
 
 (setq-default fill-column 80)
 
@@ -139,89 +132,77 @@
   (company-tng-configure-default))
 
 (add-hook 'after-init-hook 'global-company-mode)
-;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
 ;; --------------------------------- Languages ---------------------------------
 ;; -----------------------------------------------------------------------------
 ;; --------------------------------- Rust
 (when memacs-enable-rust
-    (unless (package-installed-p 'rustic)
-      (package-install 'rustic))
-
     (use-package rustic
+      :ensure t
       :bind (:map rustic-mode-map
                   ("C-c C-c t" . rustic-cargo-test)
                   ("C-c C-c b" . rustic-cargo-bench)
                   ("C-c C-c c" . rustic-cargo-check))
       :config
       (setq rustic-format-on-save nil) ;; Set to t if you wish to run rustfmt on save
-    (when memacs-use-lsp
-      (setq rustic-lsp-client 'eglot)
-      (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))))
+      (when memacs-use-lsp
+        (setq rustic-lsp-client 'eglot)
+        (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))))
 
 ;; --------------------------------- HTML
 (when memacs-enable-html
-    (unless (package-installed-p 'web-mode)
-      (package-install 'web-mode))
-
-    (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)))
+    (use-package web-mode
+      :ensure t
+      :init
+      (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))))
 
 ;; --------------------------------- Nix
 (when memacs-enable-nix
-    (unless (package-installed-p 'nix-mode)
-      (package-install 'nix-mode))
-
     (use-package nix-mode
-    :mode "\\.nix\\'"))
+      :ensure t
+      :mode "\\.nix\\'"))
 
 ;; --------------------------------- GLSL
 (when memacs-enable-glsl
-  (unless (package-installed-p 'glsl-mode)
-    (package-install 'glsl-mode))
-
   (use-package glsl-mode
+    :ensure t
     :mode ("\\.frag\\'" "\\.vert\\'" "\\.glsl\\'"))
 
-  (unless (package-installed-p 'company-glsl)
-    (package-install 'company-glsl))
-
   (use-package company-glsl
+    :ensure t
     :mode ("\\.frag\\'" "\\.vert\\'" "\\.glsl\\'")))
 
 (when memacs-enable-lua
-  (unless (package-installed-p 'lua-mode)
-    (package-install 'lua-mode))
-  (use-package lua-mode)
+  (use-package lua-mode
+    :ensure t)
 
-  (unless (package-installed-p 'flymake-lua)
-    (package-install 'flymake-lua)
-  (add-hook 'lua-mode-hook 'flymake-lua-load)))
+  (use-package flymake-lua
+    :ensure t
+    :hook
+    (lua-mode . flymake-lua-load)))
 
 ;; --------------------------------- Common Lisp
 (when memacs-enable-clisp
-  (unless (package-installed-p 'slime)
-    (package-install 'slime))
-
-  (defun memacs-clisp-hook ()
-    (slime-mode))
-
-  (add-hook 'common-lisp-mode-hook 'memacs-clisp-hook)
-
-  (setq slime-lisp-implementations
-    '((sbcl ("sbcl" "--dynamic-space-size" "4gb"))))
-
-  (setq inferior-lisp-program ""))
+  (use-package slime
+    :ensure t
+    :init
+    (setq slime-lisp-implementations
+      '((sbcl ("sbcl" "--dynamic-space-size" "4gb"))))
+    (setq inferior-lisp-program "")
+    :hook
+    (common-lisp-mode . slime-mode)))
 
 ;; --------------------------------- Haskell
 (when memacs-enable-haskell
-  (unless (package-installed-p 'haskell-mode)
-    (package-install 'haskell-mode)))
+  (use-package haskell-mode
+    :ensure t))
 
 ;; --------------------------------- Zig
 (when memacs-enable-zig
-  (unless (package-installed-p 'zig-mode)
-    (package-install 'zig-mode)))
+  (use-package zig-mode
+    :ensure t))
+
 ;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
@@ -239,33 +220,32 @@
         "  LD_LIBRARY_PATH = lib.makeLibraryPath buildInputs;\n"
         "}\n")))
 ;; (auto-insert-mode)
-;; --------------------------------- END SECTION -------------------------------
 
 ;; -----------------------------------------------------------------------------
 ;; ---------------------------------- AUCTeX -----------------------------------
 ;; -----------------------------------------------------------------------------
-(unless (package-installed-p 'auctex)
-  (package-install 'auctex))
+(use-package auctex
+  :ensure t
+  :init
+  (setq TeX-PDF-mode t)
+  (setq TeX-auto-save t)
+  (setq TeX-parse-self t)
+  (setq-default TeX-master nil))
 
-(setq TeX-PDF-mode t)
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq-default TeX-master nil)
-
-(unless (package-installed-p 'pdf-tools)
-  (package-install 'pdf-tools))
-;; --------------------------------- END SECTION -------------------------------
+(use-package pdf-tools
+  :ensure t)
 
 ;; -----------------------------------------------------------------------------
 ;; ------------------------------------ UI -------------------------------------
 ;; -----------------------------------------------------------------------------
-(unless (package-installed-p 'all-the-icons)
-  (package-install 'all-the-icons))
-(unless (package-installed-p 'all-the-icons-dired)
-  (package-install 'all-the-icons-dired))
-(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 (use-package all-the-icons
+  :ensure t
   :if (display-graphic-p))
+(use-package all-the-icons-dired
+  :ensure t
+  :hook
+  (dired-mode . all-the-icons-dired-mode))
+;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 ;; Remove UI bloat
 (menu-bar-mode -1)
@@ -308,5 +288,6 @@
 
 (setq-default show-trailing-whitespace t)
 
+(global-auto-revert-mode t)
+
 (load "~/.emacs.d/mode_line.el")
-;; --------------------------------- END SECTION -------------------------------
