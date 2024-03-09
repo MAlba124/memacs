@@ -290,6 +290,8 @@
 
 (load "~/.emacs.d/mode_line.el")
 
+(setq inhibit-startup-screen t)
+
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold (expt 2 23))))
