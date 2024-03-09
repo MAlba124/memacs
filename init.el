@@ -20,9 +20,7 @@
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
-(unless (package-installed-p 'gcmh)
-    (package-install 'gcmh))
-(gcmh-mode 1)
+(setq gc-cons-threshold most-positive-fixnum)
 
 (load "~/.emacs.d/configuration.el")
 
@@ -84,15 +82,15 @@
 (when memacs-enable-pomidor
     (use-package pomidor
       :ensure t
-        :bind (("<f12>" . pomidor))
-        :config (setq pomidor-sound-tick nil
-                        pomidor-sound-tack nil)
-        :hook (pomidor-mode . (lambda ()
-                              (display-line-numbers-mode -1) ; Emacs 26.1+
-                              (setq left-fringe-width 0 right-fringe-width 0)
-                               (setq left-margin-width 2 right-margin-width 0)
-                               ;; force fringe update
-                               (set-window-buffer nil (current-buffer))))))
+      :bind (("<f12>" . pomidor))
+      :config (setq pomidor-sound-tick nil
+                      pomidor-sound-tack nil)
+      :hook (pomidor-mode . (lambda ()
+                            (display-line-numbers-mode -1) ; Emacs 26.1+
+                            (setq left-fringe-width 0 right-fringe-width 0)
+                             (setq left-margin-width 2 right-margin-width 0)
+                             ;; force fringe update
+                             (set-window-buffer nil (current-buffer))))))
 
 (when memacs-enable-yas
     (use-package yasnippet
@@ -118,8 +116,6 @@
   :ensure t
   :config
   (smartparens-global-mode 1))
-
-;; (require 'smartparens-config)
 
 (setq-default fill-column 80)
 
@@ -293,3 +289,7 @@
 (global-auto-revert-mode t)
 
 (load "~/.emacs.d/mode_line.el")
+
+(add-hook 'emacs-startup-hook
+          (lambda ()
+            (setq gc-cons-threshold (expt 2 23))))
