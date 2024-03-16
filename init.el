@@ -263,7 +263,8 @@
 
 (global-auto-revert-mode t)
 
-(load "~/.emacs.d/mode_line.el")
+(when memacs-use-mm-modeline
+    (load "~/.emacs.d/mode_line.el"))
 
 (setq inhibit-startup-screen t)
 

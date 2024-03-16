@@ -25,6 +25,7 @@
 (setq memacs-blink-cursor     0)                     ;; Wheter to enable cursor blinking or not
 (setq memacs-hl-line          t)                     ;; Highlight current line
 (setq memacs-show-linenumbers nil)                   ;; Linenumbers
+(setq memacs-use-mm-modeline  t)                     ;; Wheter to use memacs' modeline
 
 ;; Packages
 (setq memacs-use-evil         t)                     ;; Vim keybindings
