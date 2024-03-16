@@ -28,10 +28,10 @@
 (setq memacs-use-mm-modeline  t)                     ;; Wheter to use memacs' modeline
 
 ;; Packages
-(setq memacs-use-evil         t)                     ;; Vim keybindings
-(setq memacs-use-ivy          t)                     ;; Good completion menu
-(setq memacs-use-magit        t)                     ;; Git UI
-(setq memacs-use-lsp          t)                     ;; LSP
+(setq memacs-enable-evil      t)                     ;; Vim keybindings
+(setq memacs-enable-ivy       t)                     ;; Good completion menu
+(setq memacs-enable-magit     t)                     ;; Git UI
+(setq memacs-enable-lsp       t)                     ;; LSP
 (setq memacs-enable-pomidor   nil)                   ;; Pomidor timer
 (setq memacs-enable-elfeed    nil)                   ;; RSS feed reader
 (setq memacs-enable-yas       nil)                   ;; YASnippets

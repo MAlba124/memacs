@@ -39,7 +39,7 @@
 ;; -------------------------------- Navigation ---------------------------------
 ;; -----------------------------------------------------------------------------
 ;; Install evil mode
-(when memacs-use-evil
+(when memacs-enable-evil
     ;; Init evil
     (use-package evil
     :init
@@ -61,7 +61,7 @@
 ;; ---------------------------------- General ----------------------------------
 ;; -----------------------------------------------------------------------------
 ;; Install ivy
-(when memacs-use-ivy
+(when memacs-enable-ivy
     (unless (package-installed-p 'ivy)
         (package-install 'ivy))
     (use-package ivy
@@ -71,7 +71,7 @@
       (ivy-mode)))
 
 ;; Install magit
-(when memacs-use-magit
+(when memacs-enable-magit
   (use-package magit))
 
 (when memacs-enable-pomidor
@@ -130,7 +130,7 @@
                   ("C-c C-c c" . rustic-cargo-check))
       :config
       (setq rustic-format-on-save nil) ;; Set to t if you wish to run rustfmt on save
-      (when memacs-use-lsp
+      (when memacs-enable-lsp
         (setq rustic-lsp-client 'eglot)
         (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))))
 
