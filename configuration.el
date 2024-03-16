@@ -14,30 +14,37 @@
 ;; along with memacs.  If not, see <https://www.gnu.org/licenses/>.
 
 ;; Some basic settings you can change
-(setq memacs-native-compilation t) ;; Enable native compilation. This required gccemacs
-(setq memacs-font               "Iosevka Semibold-10") ;; Font to use
-(setq memacs-scroll-margin      5)            ;; Scroll margin
-(setq memacs-tab-width          4)            ;; Tab width
-(setq memacs-blink-cursor       0)
-(setq memacs-hl-line            t)
-(setq memacs-show-linenumbers   nil)
-(setq memacs-use-evil           t)
-(setq memacs-use-ivy            t)
-(setq memacs-use-magit          t)
-(setq memacs-use-lsp            t)
-(setq memacs-enable-pomidor     nil)
-(setq memacs-enable-elfeed      nil)
-(setq memacs-enable-yas         nil)
-(setq memacs-enable-vterm       t)
+
+;; Performance
+(setq memacs-native-compilation t)                   ;; Enable native compilation. This required gccemacs
+
+;; UI
+(setq memacs-font             "Iosevka Semibold-10") ;; Font to use
+(setq memacs-scroll-margin    5)                     ;; Scroll margin
+(setq memacs-tab-width        4)                     ;; Tab width
+(setq memacs-blink-cursor     0)                     ;; Wheter to enable cursor blinking or not
+(setq memacs-hl-line          t)                     ;; Highlight current line
+(setq memacs-show-linenumbers nil)                   ;; Linenumbers
+
+;; Packages
+(setq memacs-use-evil         t)                     ;; Vim keybindings
+(setq memacs-use-ivy          t)                     ;; Good completion menu
+(setq memacs-use-magit        t)                     ;; Git UI
+(setq memacs-use-lsp          t)                     ;; LSP
+(setq memacs-enable-pomidor   nil)                   ;; Pomidor timer
+(setq memacs-enable-elfeed    nil)                   ;; RSS feed reader
+(setq memacs-enable-yas       nil)                   ;; YASnippets
+(setq memacs-enable-vterm     t)                     ;; Terminal emulator
+(setq memacs-vterm-shell      "zsh")                 ;; What shell vterm should use
 
 ;; Languages
-(setq memacs-enable-markdown    t)
-(setq memacs-enable-rust        t)
-(setq memacs-enable-html        t)
-(setq memacs-enable-nix         t)
-(setq memacs-enable-sql         nil)
-(setq memacs-enable-glsl        nil)
-(setq memacs-enable-lua         nil)
-(setq memacs-enable-clisp       nil)
-(setq memacs-enable-haskell     nil)
-(setq memacs-enable-zig         nil)
+(setq memacs-enable-markdown  t)                     ;; Markdown
+(setq memacs-enable-rust      t)                     ;; Rust
+(setq memacs-enable-html      t)                     ;; HTML
+(setq memacs-enable-nix       t)                     ;; Nix
+(setq memacs-enable-sql       nil)                   ;; SQL
+(setq memacs-enable-glsl      nil)                   ;; GLSL
+(setq memacs-enable-lua       nil)                   ;; Lua
+(setq memacs-enable-clisp     nil)                   ;; Common Lisp
+(setq memacs-enable-haskell   nil)                   ;; Haskell
+(setq memacs-enable-zig       nil)                   ;; Zig

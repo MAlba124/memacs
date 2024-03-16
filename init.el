@@ -96,7 +96,7 @@
 (when memacs-enable-vterm
     (use-package vterm
     :config
-    (setq vterm-shell "zsh")))
+    (setq vterm-shell memacs-vterm-shell)))
 
 (when memacs-enable-elfeed
   (use-package elfeed
