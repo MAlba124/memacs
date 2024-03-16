@@ -32,6 +32,8 @@
              '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+(setq package-install-upgrade-built-in t)
+
 (unless (package-installed-p 'use-package)
   (package-install 'use-package))
 (setq use-package-always-ensure t)
