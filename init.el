@@ -120,6 +120,13 @@
 
 (add-hook 'after-init-hook 'global-company-mode)
 
+(when memacs-enable-lsp
+  (require 'eglot)
+  (define-key eglot-mode-map (kbd "C-c C-l a") 'eglot-code-actions)
+  (define-key eglot-mode-map (kbd "C-c C-l d") 'xref-find-definitions)
+  (define-key eglot-mode-map (kbd "C-c C-l f") 'xref-find-references)
+  (define-key eglot-mode-map (kbd "C-c C-l r") 'eglot-rename))
+
 ;; -----------------------------------------------------------------------------
 ;; --------------------------------- Languages ---------------------------------
 ;; -----------------------------------------------------------------------------
