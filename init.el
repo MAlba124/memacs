@@ -227,7 +227,6 @@
 (use-package all-the-icons-dired
   :hook
   (dired-mode . all-the-icons-dired-mode))
-;; (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
 ;; Remove UI bloat
 (menu-bar-mode -1)
