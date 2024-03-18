@@ -35,8 +35,7 @@
          (when (mode-line-window-selected-p)
            (format "   %s   %s"
                    "%l:%c"
-            (capitalize (symbol-name major-mode)))
-        ))))
+            (capitalize (symbol-name major-mode)))))))
 
 (defvar-local memacs-modeline-buffer-name
     '(:eval (propertize (format " %s %s "

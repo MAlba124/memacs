@@ -276,6 +276,13 @@
 
 (setq inhibit-startup-screen t)
 
+(defun memacs-tab-bar-name-function ()
+  (format "%s %s"
+        (all-the-icons-icon-for-file (buffer-name))
+        (buffer-name)))
+
+(setq tab-bar-tab-name-function #'memacs-tab-bar-name-function)
+
 (add-hook 'emacs-startup-hook
           (lambda ()
             (setq gc-cons-threshold (expt 2 23))))

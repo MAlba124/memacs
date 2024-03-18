@@ -9,6 +9,8 @@ Clone this git repository into `~/.emacs.d`:
 $ git clone https://gitlab.com/Marcu5H/memacs.git ~/.emacs.d
 ```
 
+If icons are not showing correctly, install the required fonts with `M-x all-the-icons-install-fonts`.
+
 ## Configuration
 
 Basic configuration is done by editing `configuration.el`.
