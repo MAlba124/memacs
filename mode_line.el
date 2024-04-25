@@ -38,8 +38,7 @@
             (capitalize (symbol-name major-mode)))))))
 
 (defvar-local memacs-modeline-buffer-name
-    '(:eval (propertize (format " %s %s "
-                    (all-the-icons-icon-for-file (buffer-name))
+    '(:eval (propertize (format " %s "
                     (buffer-name)) 'face 'memacs-modeline-buffer-face)))
 
 (put 'memacs-modeline-buffer-name 'risky-local-variable t)

@@ -44,6 +44,7 @@
  memacs-enable-rust      t                     ;; Rust
  memacs-enable-html      t                     ;; HTML
  memacs-enable-nix       t                     ;; Nix
+ memacs-enable-c         t                     ;; C
  memacs-enable-sql       nil                   ;; SQL
  memacs-enable-glsl      nil                   ;; GLSL
  memacs-enable-lua       nil                   ;; Lua

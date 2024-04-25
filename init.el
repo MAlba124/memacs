@@ -191,6 +191,13 @@
 (when memacs-enable-markdown
   (use-package markdown-mode))
 
+;; --------------------------------- C
+(when memacs-enable-c
+  (setq-default c-basic-offset 4)
+  (when memacs-enable-lsp
+    (add-to-list 'eglot-server-programs '((c-mode) "clangd"))
+    (add-hook 'c-mode-hook 'eglot-ensure)))
+
 ;; -----------------------------------------------------------------------------
 ;; -------------------------------- Autoinsert ---------------------------------
 ;; -----------------------------------------------------------------------------
@@ -275,13 +282,6 @@
     (load "~/.emacs.d/mode_line.el"))
 
 (setq inhibit-startup-screen t)
-
-(defun memacs-tab-bar-name-function ()
-  (format "%s %s"
-        (all-the-icons-icon-for-file (buffer-name))
-        (buffer-name)))
-
-(setq tab-bar-tab-name-function #'memacs-tab-bar-name-function)
 
 (add-hook 'emacs-startup-hook
           (lambda ()
