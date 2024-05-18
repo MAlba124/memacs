@@ -127,6 +127,11 @@
   (define-key eglot-mode-map (kbd "C-c C-l f") 'xref-find-references)
   (define-key eglot-mode-map (kbd "C-c C-l r") 'eglot-rename))
 
+(when memacs-enable-git-gutter
+  (use-package git-gutter
+    :config
+    (global-git-gutter-mode t)))
+
 ;; -----------------------------------------------------------------------------
 ;; --------------------------------- Languages ---------------------------------
 ;; -----------------------------------------------------------------------------
@@ -193,10 +198,10 @@
 
 ;; --------------------------------- C
 (when memacs-enable-c
-  (setq-default c-basic-offset 4)
-  (when memacs-enable-lsp
-    (add-to-list 'eglot-server-programs '((c-mode) "clangd"))
-    (add-hook 'c-mode-hook 'eglot-ensure)))
+  (setq-default c-basic-offset 4))
+  ;; (when memacs-enable-lsp
+  ;;   (add-to-list 'eglot-server-programs '((c-mode) "clangd"))
+  ;;   (add-hook 'c-mode-hook 'eglot-ensure)))
 
 ;; -----------------------------------------------------------------------------
 ;; -------------------------------- Autoinsert ---------------------------------
