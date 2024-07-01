@@ -1,0 +1,3 @@
+[submodule "luamacs"]
+	path = luamacs
+	url = https://github.com/MAlba124/luamacs.git
