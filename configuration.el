@@ -48,7 +48,8 @@
  memacs-enable-c          t                     ;; C
  memacs-enable-sql        nil                   ;; SQL
  memacs-enable-glsl       nil                   ;; GLSL
- memacs-enable-lua        nil                   ;; Lua
+ memacs-enable-lua        t                     ;; Lua
  memacs-enable-clisp      nil                   ;; Common Lisp
  memacs-enable-haskell    nil                   ;; Haskell
- memacs-enable-zig        nil)                  ;; Zig
+ memacs-enable-zig        nil                   ;; Zig
+ memacs-enable-cobol      t)                    ;; Cobol
