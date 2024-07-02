@@ -14,9 +14,6 @@
 ;; You should have received a copy of the GNU General Public License
 ;; along with memacs.  If not, see <https://www.gnu.org/licenses/>.
 
-;; -----------------------------------------------------------------------------
-;; ------------------------------ Imports/setup --------------------------------
-;; -----------------------------------------------------------------------------
 (setq custom-file "~/.emacs.d/custom.el")
 (load custom-file)
 
@@ -37,12 +34,6 @@
     (when (equal major-mode 'vterm-mode)
     (setq-local global-hl-line-mode nil)
     (setq-local show-trailing-whitespace nil)))
-
-(defun memacs-fix-vterm-hl-line ()
-    (add-hook 'vterm-mode-hook 'memacs-vterm-hook))
-
-(defun memacs-dired-icons-dired-hook ()
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
 
 (let ((state (luamacs-state-init)))
   (luamacs-exec-str state (with-temp-buffer (insert-file-contents "~/.emacs.d/init.lua") (buffer-string))))

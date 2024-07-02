@@ -102,12 +102,7 @@ if config["company"] then
    em.set(em.intern("company-idle-delay"), 0.1)
    pakage.install_if_not_installed(em.intern("company"))
    functioncall(emacs_environment, "company-tng-mode", 0, {})
-   functioncall(
-      emacs_environment,
-      "add-hook",
-      2,
-      {em.intern("after-init-hook"), em.intern("global-company-mode")}
-   )
+   em.add_hook(em.intern("after-init-hook"), em.intern("global-company-mode"))
 end
 
 if config["lsp"] then
@@ -127,7 +122,7 @@ end
 if config["all_the_icons"] then
    pakage.install_if_not_installed(em.intern("all-the-icons"))
    pakage.install_if_not_installed(em.intern("all-the-icons-dired"))
-   functioncall(emacs_environment, "memacs-dired-icons-dired-hook", 0, {})
+   em.add_hook(em.intern("dired-mode-hook"), em.intern("all-the-icons-dired-mode"))
 end
 
 if config["languages"]["rust"] then
@@ -178,7 +173,8 @@ ui.blink_cursor_mode(em.Mode.DISABLE)
 if config["hl_line"] then
    em.require(em.intern("hl-line"))
    functioncall(emacs_environment, "global-hl-line-mode", 1, {true})
-   functioncall(emacs_environment, "memacs-fix-vterm-hl-line", 0, {})
+   em.add_hook(em.intern("vterm-mode-hook"), em.intern("memacs-vterm-hook"))
+   -- functioncall(emacs_environment, "memacs-fix-vterm-hl-line", 0, {})
 end
 
 em.set(em.intern("ring-bell-function"), em.intern("ignore"))
