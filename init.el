@@ -41,7 +41,6 @@
 (setq-default fill-column 80)
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
-(add-to-list 'default-frame-alist `(font . ,memacs-font))
 
 (add-hook 'emacs-startup-hook
           (lambda ()

@@ -136,20 +136,18 @@ end
 
 if config["languages"]["html"] then
    pakage.install_if_not_installed(em.intern("web-mode"))
-   -- TODO
-   -- em.add_to_list(
-   --    em.intern("auto-mode-alist"),
-   --    em.cons("\\.html?\\'", em.intern("web-mode"))
-   -- )
+   em.add_to_list_no_ret(
+      em.intern("auto-mode-alist"),
+      em.cons("\\.html\\'", em.intern("web-mode"))
+   )
 end
 
 if config["languages"]["nix"] then
    pakage.install_if_not_installed(em.intern("nix-mode"))
-   -- TODO
-   -- em.add_to_list(
-   --    em.intern("auto-mode-alist"),
-   --    em.cons("\\.nix\\'", em.intern("nix-mode"))
-   -- )
+   em.add_to_list_no_ret(
+      em.intern("auto-mode-alist"),
+      em.cons("\\.nix\\'", em.intern("nix-mode"))
+   )
 end
 
 if config["languages"]["lua"] then
@@ -174,7 +172,6 @@ if config["hl_line"] then
    em.require(em.intern("hl-line"))
    functioncall(emacs_environment, "global-hl-line-mode", 1, {true})
    em.add_hook(em.intern("vterm-mode-hook"), em.intern("memacs-vterm-hook"))
-   -- functioncall(emacs_environment, "memacs-fix-vterm-hl-line", 0, {})
 end
 
 em.set(em.intern("ring-bell-function"), em.intern("ignore"))
@@ -201,4 +198,7 @@ em.set(em.intern("scroll-margin"), config["scroll_margin"])
 em.set(em.intern("tab-width"), config["tab_width"])
 em.set(em.intern("dsplay-line-numbers-type"), config["show_line_numbers"])
 
-em.set(em.intern("memacs-font"), config["font"])
+em.add_to_list_no_ret(
+   em.intern("default-frame-alist"),
+   em.cons(em.intern("font"), config["font"])
+)
