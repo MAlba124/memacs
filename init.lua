@@ -34,6 +34,7 @@ local config = {
    lsp = true,
    git_gutter = true,
    pdf_tools = true,
+   all_the_icons = true,
    hl_line = true,
    custom_modeline = true,
    scroll_margin = 5,
@@ -49,7 +50,7 @@ local config = {
 }
 
 pakage.add_pkg_archive({ name = "melpa", url = "https://melpa.org/packages" })
--- TODO: (setq package-install-upgrade-built-in t)
+em.set(em.intern("package-install-upgrade-built-in"), true)
 if config["native_compilation"] then
    pakage.enable_native_compilation()
 end
@@ -114,6 +115,12 @@ end
 
 if config["pdf_tools"] then
    pakage.install_if_not_installed(em.intern("pdf-tools"))
+end
+
+if config["all_the_icons"] then
+   pakage.install_if_not_installed(em.intern("all-the-icons"))
+   pakage.install_if_not_installed(em.intern("all-the-icons-dired"))
+   functioncall(emacs_environment, "memacs-dired-icons-dired-hook", 0, {})
 end
 
 if config["languages"]["rust"] then

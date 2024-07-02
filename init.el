@@ -22,7 +22,6 @@
 
 (setq gc-cons-threshold most-positive-fixnum)
 
-
 (module-load (concat (getenv "HOME") "/.emacs.d/luamacs/luamacs.so"))
 
 (defun memacs-set-eglot-key-maps ()
@@ -42,29 +41,16 @@
 (defun memacs-fix-vterm-hl-line ()
     (add-hook 'vterm-mode-hook 'memacs-vterm-hook))
 
+(defun memacs-dired-icons-dired-hook ()
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode))
+
 (let ((state (luamacs-state-init)))
   (luamacs-exec-str state (with-temp-buffer (insert-file-contents "~/.emacs.d/init.lua") (buffer-string))))
 
-(setq package-install-upgrade-built-in t)
-
-(unless (package-installed-p 'use-package)
-  (package-install 'use-package))
-(setq use-package-always-ensure t)
-
 (setq-default fill-column 80)
-
-(use-package all-the-icons
-  :if (display-graphic-p))
-(use-package all-the-icons-dired
-  :hook
-  (dired-mode . all-the-icons-dired-mode))
-
 (setq-default indent-tabs-mode nil)
-
-(add-to-list 'default-frame-alist
-             `(font . ,memacs-font))
-
 (setq-default show-trailing-whitespace t)
+(add-to-list 'default-frame-alist `(font . ,memacs-font))
 
 (add-hook 'emacs-startup-hook
           (lambda ()
