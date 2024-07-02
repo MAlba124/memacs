@@ -49,7 +49,7 @@ local config = {
    }
 }
 
-pakage.add_pkg_archive({ name = "melpa", url = "https://melpa.org/packages" })
+pakage.add_pkg_archive({ name = "melpa", url = "https://melpa.org/packages/" })
 em.set(em.intern("package-install-upgrade-built-in"), true)
 if config["native_compilation"] then
    pakage.enable_native_compilation()
