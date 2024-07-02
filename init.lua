@@ -36,7 +36,14 @@ local config = {
    pdf_tools = true,
    all_the_icons = true,
    hl_line = true,
-   custom_modeline = true,
+   doom_modeline = {
+      enable = true,
+      height = 20,
+      buffer_state_icon = true,
+      major_mode_icon = true,
+      modification_icon = true,
+      modal_icon = false
+   },
    scroll_margin = 5,
    tab_width = 4,
    show_line_numbers = false,
@@ -176,8 +183,18 @@ end
 
 em.set(em.intern("ring-bell-function"), em.intern("ignore"))
 
-if config["custom_modeline"] then
-   em.load("~/.emacs.d/mode_line.el")
+if config["doom_modeline"]["enable"] then
+   pakage.install_if_not_installed(em.intern("nerd-icons"))
+   pakage.install_if_not_installed(em.intern("doom-modeline"))
+
+   em.set(em.intern("doom-modeline-height"), config["doom_modeline"]["height"])
+   em.set(em.intern("doom-modeline-buffer-state-icon"), config["doom_modeline"]["buffer_state_icon"])
+   em.set(em.intern("doom-modeline-major-mode-icon"), config["doom_modeline"]["major_mode_icon"])
+   em.set(em.intern("doom-modeline-modification-icon"), config["doom_modeline"]["modification_icon"])
+   em.set(em.intern("doom-modeline-modal-icon"), config["doom_modeline"]["modal_icon"])
+
+   em.require(em.intern("doom-modeline"))
+   functioncall(emacs_environment, "doom-modeline-mode", 1, {1})
 end
 
 em.set(em.intern("inhibit-startup-screen"), true)
