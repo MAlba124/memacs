@@ -47,6 +47,7 @@ local config = {
    scroll_margin = 5,
    tab_width = 4,
    show_line_numbers = false,
+   syntax_highlighting = false,
    languages = {
       rust = true,
       html = true,
@@ -202,3 +203,7 @@ em.add_to_list_no_ret(
    em.intern("default-frame-alist"),
    em.cons(em.intern("font"), config["font"])
 )
+
+if not config["syntax_highlighting"] then
+   functioncall(emacs_environment, "global-font-lock-mode", 1, {0})
+end
