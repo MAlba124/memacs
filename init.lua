@@ -48,6 +48,7 @@ local config = {
    tab_width = 4,
    show_line_numbers = false,
    syntax_highlighting = false,
+   aggressive_indent = true,
    languages = {
       rust = true,
       html = true,
@@ -169,10 +170,25 @@ ui.require_theme(em.intern("modus-themes"))
 ui.load_theme(em.intern("modus-operandi"))
 ui.blink_cursor_mode(em.Mode.DISABLE)
 
+function memacs_vterm_hook_handler()
+   print("memacs_vterm_hook")
+   em.set(functioncall(emacs_environment, "make-local-variable", 1, {em.intern("global-hl-line-mode")}), nil)
+   em.set(functioncall(emacs_environment, "make-local-variable", 1, {em.intern("show-trailing-whitespace")}), nil)
+end
+
+expose_function(
+   emacs_environment,
+   "memacs-vterm-hook-handler",
+   "Disable hl-line-mode and hide trailing whitespace in vterm buffers",
+   0,
+   false,
+   memacs_vterm_hook_handler
+)
+
 if config["hl_line"] then
    em.require(em.intern("hl-line"))
    functioncall(emacs_environment, "global-hl-line-mode", 1, {true})
-   em.add_hook(em.intern("vterm-mode-hook"), em.intern("memacs-vterm-hook"))
+   em.add_hook(em.intern("vterm-mode-hook"), em.intern("memacs-vterm-hook-handler"))
 end
 
 em.set(em.intern("ring-bell-function"), em.intern("ignore"))
@@ -207,3 +223,23 @@ em.add_to_list_no_ret(
 if not config["syntax_highlighting"] then
    functioncall(emacs_environment, "global-font-lock-mode", 1, {0})
 end
+
+if config["aggressive_indent"] then
+   pakage.install_if_not_installed(em.intern("aggressive-indent"))
+   functioncall(emacs_environment, "global-aggressive-indent-mode", 1, {1})
+end
+
+function memacs_reset_gc_threshold()
+   em.set(em.intern("gc-cons-threshold"), 2 ^ 23)
+end
+
+expose_function(
+   emacs_environment,
+   "memacs_reset_gc_threshold",
+   "Reset GC threshold to a more sane value",
+   0,
+   false,
+   memacs_reset_gc_threshold
+)
+
+em.add_hook(em.intern("emacs-startup-hook"), em.intern("memacs_reset_gc_threshold"))

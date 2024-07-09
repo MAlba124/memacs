@@ -22,26 +22,18 @@
 (module-load (concat (getenv "HOME") "/.emacs.d/luamacs/luamacs.so"))
 
 (defun memacs-set-eglot-key-maps ()
-   (define-key eglot-mode-map (kbd "C-c C-l a") 'eglot-code-actions)
-   (define-key eglot-mode-map (kbd "C-c C-l d") 'xref-find-definitions)
-   (define-key eglot-mode-map (kbd "C-c C-l f") 'xref-find-references)
-   (define-key eglot-mode-map (kbd "C-c C-l r") 'eglot-rename))
+  (define-key eglot-mode-map (kbd "C-c C-l a") 'eglot-code-actions)
+  (define-key eglot-mode-map (kbd "C-c C-l d") 'xref-find-definitions)
+  (define-key eglot-mode-map (kbd "C-c C-l f") 'xref-find-references)
+  (define-key eglot-mode-map (kbd "C-c C-l r") 'eglot-rename))
 
 (defun memacs-add-rustic-eglot-hook ()
   (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
 
-(defun memacs-vterm-hook ()
-    (when (equal major-mode 'vterm-mode)
-    (setq-local global-hl-line-mode nil)
-    (setq-local show-trailing-whitespace nil)))
+(setq luamacs-state (luamacs-state-init))
 
-(let ((state (luamacs-state-init)))
-  (luamacs-exec-str state (with-temp-buffer (insert-file-contents "~/.emacs.d/init.lua") (buffer-string))))
+(luamacs-exec-str luamacs-state (with-temp-buffer (insert-file-contents "~/.emacs.d/init.lua") (buffer-string)))
 
 (setq-default fill-column 80)
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
-
-(add-hook 'emacs-startup-hook
-          (lambda ()
-            (setq gc-cons-threshold (expt 2 23))))
