@@ -47,7 +47,7 @@ local config = {
    scroll_margin = 5,
    tab_width = 4,
    show_line_numbers = false,
-   syntax_highlighting = false,
+   syntax_highlighting = true,
    aggressive_indent = true,
    languages = {
       rust = true,
@@ -124,15 +124,22 @@ end
 if config["all_the_icons"] then
    pakage.install_if_not_installed(em.intern("all-the-icons"))
    pakage.install_if_not_installed(em.intern("all-the-icons-dired"))
+   -- TODO: make hook handler that enables font-lock-mode for dired buffers when global-font-lock-mode is disabled
    em.add_hook(em.intern("dired-mode-hook"), em.intern("all-the-icons-dired-mode"))
 end
+
+function memacs_add_rustic_eglot()
+   functioncall(emacs_environment, "flymake-mode", 1, {-1})
+end
+
+expose_function(emacs_environment, "memacs-add-rustic-eglot", "...", 0, false, memacs_add_rustic_eglot)
 
 if config["languages"]["rust"] then
    pakage.install_if_not_installed(em.intern("rustic"))
    em.set(em.intern("rustic-format-on-save"), nil)
    if config["lsp"] then
       em.set(em.intern("rustic-lsp-client"), em.intern("eglot"))
-      functioncall(emacs_environment, "memacs-add-rustic-eglot-hook", 0, {})
+      em.add_hook(em.intern("eglot--managed-mode-hook"), em.intern("memacs-add-rustic-eglot"))
    end
 end
 
@@ -171,9 +178,8 @@ ui.load_theme(em.intern("modus-operandi"))
 ui.blink_cursor_mode(em.Mode.DISABLE)
 
 function memacs_vterm_hook_handler()
-   print("memacs_vterm_hook")
-   em.set(functioncall(emacs_environment, "make-local-variable", 1, {em.intern("global-hl-line-mode")}), nil)
-   em.set(functioncall(emacs_environment, "make-local-variable", 1, {em.intern("show-trailing-whitespace")}), nil)
+   em.set(em.make_local_variable(em.intern("global-hl-line-mode")), nil)
+   em.set(em.make_local_variable(em.intern("show-trailing-whitespace")), nil)
 end
 
 expose_function(
@@ -228,6 +234,10 @@ if config["aggressive_indent"] then
    pakage.install_if_not_installed(em.intern("aggressive-indent"))
    functioncall(emacs_environment, "global-aggressive-indent-mode", 1, {1})
 end
+
+em.set_default(em.intern("fill-column"), 80)
+em.set_default(em.intern("indent-tabs-mode"), false)
+em.set_default(em.intern("show-trailing-whitespace"), true)
 
 function memacs_reset_gc_threshold()
    em.set(em.intern("gc-cons-threshold"), 2 ^ 23)

@@ -27,13 +27,5 @@
   (define-key eglot-mode-map (kbd "C-c C-l f") 'xref-find-references)
   (define-key eglot-mode-map (kbd "C-c C-l r") 'eglot-rename))
 
-(defun memacs-add-rustic-eglot-hook ()
-  (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
-
 (setq luamacs-state (luamacs-state-init))
-
 (luamacs-exec-str luamacs-state (with-temp-buffer (insert-file-contents "~/.emacs.d/init.lua") (buffer-string)))
-
-(setq-default fill-column 80)
-(setq-default indent-tabs-mode nil)
-(setq-default show-trailing-whitespace t)
